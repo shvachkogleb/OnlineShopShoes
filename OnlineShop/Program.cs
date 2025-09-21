@@ -7,7 +7,7 @@ using Services;
 
 namespace OnlineShop
 {
-    public class Program
+    public class Program 
     {
         public static void Main(string[] args)
        {
@@ -23,7 +23,7 @@ namespace OnlineShop
 
             var app = builder.Build();
 
-            // Middleware
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
@@ -35,7 +35,7 @@ namespace OnlineShop
             app.UseRouting();
             app.UseAuthorization();
 
-            // Маршруты
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
