@@ -22,7 +22,7 @@
 
         .navbar {
             padding: 1rem 2rem;
-            background-color: #343a40;
+            background-color: blue;
         }
 
             .navbar a {
@@ -37,7 +37,7 @@
         .products {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
+            gap: 30px;
             padding: 2rem;
         }
 
@@ -50,6 +50,10 @@
             font-size: 1.1rem;
             font-weight: bold;
         }
+
+        .card div {
+           padding-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -61,7 +65,7 @@
             <a href="/Cart/Index" class="text-white position-relative">
                 <i class="bi bi-cart" style="font-size: 1.8rem;"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    0
+                    @ViewBag.CartCount
                 </span>
             </a>
             <a href="/Account/Login" class="user-icon text-white">
@@ -80,9 +84,10 @@
                 <p class="card-text fw-bold">200$</p>
                 <a href="#" class="btn btn-primary w-100">Buy</a>
                 <p></p>
-                <a asp-controller="Cart" asp-action="Add" class="btn btn-primary w-100">
-                    Cart
-                </a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="1" />
+                    <button type="submit" class="btn btn-primary w-100">Cart</button>
+                </form>
             </div>
         </div>
 
@@ -96,9 +101,10 @@
                 <p class="card-text fw-bold">300$</p>
                 <a href="#" class="btn btn-primary w-100">Buy</a>
                 <p></p>
-                <a asp-controller="Cart" asp-action="Add"  class="btn btn-primary w-100">
-                    Cart
-                </a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="2" />
+                    <button type="submit" class="btn btn-primary w-100">Cart</button>
+                </form>
             </div>
         </div>
 
@@ -112,9 +118,10 @@
                 <p class="card-text fw-bold">300$</p>
                 <a href="#" class="btn btn-primary w-100">Buy</a>
                 <p></p>
-                <a asp-controller="Cart" asp-action="Add" class="btn btn-primary w-100">
-                    Cart
-                </a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="3" />
+                    <button type="submit" class="btn btn-primary w-100">Cart</button>
+                </form>
             </div>
     </div>
 

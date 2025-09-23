@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Infrastructure.Repositories;
 
+
 namespace Services
 {
     public class UserService : IUserService
@@ -24,6 +25,8 @@ namespace Services
                 return false;
 
             await _userRepository.AddUserAsync(user);
+
+
             return true;
         }
 

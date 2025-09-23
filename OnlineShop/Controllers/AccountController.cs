@@ -17,8 +17,7 @@ namespace OnlineShop.Controllers
         }
 
         [HttpGet]
-        public IActionResult Registration()
-        {
+        public async Task<IActionResult> Registration() {
             return View();
         }
 
@@ -57,8 +56,7 @@ namespace OnlineShop.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-
-            await _userService.RegisterUserAsync(model);
+            HttpContext.Session.SetInt32("UserId", existingUser.Id);
 
             return RedirectToAction("MainPage", "Main");
         }
