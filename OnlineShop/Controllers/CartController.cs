@@ -40,5 +40,9 @@ namespace OnlineShop.Controllers
 
             return RedirectToAction("MainPage", "Main");
         }
+
+        public async Task<IActionResult> Cart() {
+            return View();
+        }
     }
 }
