@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Login and registration";
     Layout = null;
+    var userCart = ViewBag.UserCart;
 }
 <!DOCTYPE html>
 <html lang="ru">
@@ -49,7 +50,6 @@
         }
 
         .price {
-            margin-top: -20px;
             font-size: 1.2rem;
             font-weight: bold;
             color: #333;
@@ -67,7 +67,7 @@
 
         .buy-btn {
             padding: 10px 20px;
-            background: blue;
+            background: green;
             color: #fff;
             border: none;
             border-radius: 6px;
@@ -82,19 +82,21 @@
     </style>
 </head>
 <body>
-    <div class="order-item">
-        <div class="order-left">
-            <img src="https://static.flexdog.pl/flexdog-3/products/images/e7beb6b5-3ab3-4ca8-a963-1cb54db7bd01_instyle_ai.png" alt="Air Jordan 4 Retro">
-            <div class="order-info">
-                <div class="price">200$</div>
-                <div class="quantity">Количество: 2</div>
+    @foreach (var item in userCart)
+    {
+        <div class="order-item">
+            <div class="order-left">
+                <img src="@item.Product.ImageUrl" alt="@item.Product.Name">
+                <div class="order-info">
+                    <div class="name">@item.Product.Name</div>
+                    <div class="price">@((int)item.Product.Price)$</div>
+                    <div class="quantity">Quantity: @item.Quantity</div>
+                </div>
+            </div>
+            <div class="order-right">
+                <button class="buy-btn">Buy</button>
             </div>
         </div>
-        <div class="order-right">
-            <button class="buy-btn">Купить</button>
-        </div>
-    </div>
-
+    }
 </body>
 </html>
-

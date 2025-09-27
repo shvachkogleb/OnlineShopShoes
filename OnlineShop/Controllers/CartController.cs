@@ -1,17 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.Entities;
+using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
-using Domain.Entities;
+using Services;
 
 namespace OnlineShop.Controllers
 {
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ICartRepository _cartRepository;
+        private readonly ICartService _cartService;
 
-        public CartController(AppDbContext context)
+        public CartController(AppDbContext context, ICartRepository cartRepository, ICartService cartService)
         {
             _context = context;
+            _cartRepository = cartRepository;
+            _cartService = cartService;
         }
 
 
@@ -20,29 +27,21 @@ namespace OnlineShop.Controllers
         {
             int? userId = HttpContext.Session.GetInt32("UserId");
 
-            var cartItem = await _context.CartItems
-                .FirstOrDefaultAsync(ci => ci.UserId == userId && ci.ProductId == productId);
-
-            if (cartItem != null)
-                cartItem.Quantity++;
-            else
-            {
-                cartItem = new CartItem
-                {
-                    UserId = userId.Value,
-                    ProductId = productId,
-                    Quantity = 1
-                };
-                _context.CartItems.Add(cartItem);
-            }
-
-            await _context.SaveChangesAsync();
+            await _cartService.AddToCartAsync(userId.Value, productId);
 
             return RedirectToAction("MainPage", "Main");
         }
 
         public async Task<IActionResult> Cart() {
+
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            var userCart = await _cartRepository.GetAllCartItemsAsync(userId.Value);
+
+            ViewBag.UserCart = userCart;
+
             return View();
         }
     }
 }
+ 

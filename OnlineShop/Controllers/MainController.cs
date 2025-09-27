@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 
@@ -7,10 +8,12 @@ namespace OnlineShop.Controllers
     public class MainController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ICartRepository _cartRepository;
 
-        public MainController(AppDbContext context)
+        public MainController(AppDbContext context, ICartRepository cartRepository)
         {
             _context = context;
+            _cartRepository = cartRepository;
         }
 
         public async Task<IActionResult> MainPage()
@@ -18,12 +21,8 @@ namespace OnlineShop.Controllers
             int? userId = HttpContext.Session.GetInt32("UserId");
 
             int cartCount = 0;
-            if (userId.HasValue)
-            {
-                cartCount = await _context.CartItems
-                    .Where(ci => ci.UserId == userId.Value)
-                    .SumAsync(ci => ci.Quantity);
-            }
+
+            cartCount = await _cartRepository.CartCountAsync(userId.Value);
 
             ViewBag.CartCount = cartCount;
             return View();

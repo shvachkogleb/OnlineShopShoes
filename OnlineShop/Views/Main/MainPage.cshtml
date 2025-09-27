@@ -22,7 +22,7 @@
 
         .navbar {
             padding: 1rem 2rem;
-            background-color: blue;
+            background-color: mediumblue;
         }
 
             .navbar a {
@@ -53,6 +53,12 @@
 
         .card div {
            padding-left: 20px;
+           
+        }
+
+        .btn-primary {
+            background-color: mediumblue;
+
         }
     </style>
 </head>
@@ -62,6 +68,7 @@
         <a href="/" class="text-white fs-4">SWAGардове Небо</a>
 
         <div class="d-flex align-items-center gap-3">
+            <input type="text" id="searchBox" class="form-control" placeholder="Search..." style="width: 250px;" />
             <a href="/Cart/Cart" class="text-white position-relative">
                 <i class="bi bi-cart" style="font-size: 1.8rem;"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -82,7 +89,10 @@
                 <h5 class="card-title">Air Jordan 4 Retro</h5>
                 <p class="card-text"></p>
                 <p class="card-text fw-bold">200$</p>
-                <a href="#" class="btn btn-primary w-100">Buy</a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="1" />
+                    <button type="submit" class="btn btn-primary w-100">Buy</button>
+                </form>
                 <p></p>
                 <form asp-controller="Cart" asp-action="Add" method="post">
                     <input type="hidden" name="productId" value="1" />
@@ -99,7 +109,10 @@
                 <h5 class="card-title">Balenciaga Track 2</h5>
                 <p class="card-text"></p>
                 <p class="card-text fw-bold">300$</p>
-                <a href="#" class="btn btn-primary w-100">Buy</a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="1" />
+                    <button type="submit" class="btn btn-primary w-100">Buy</button>
+                </form>
                 <p></p>
                 <form asp-controller="Cart" asp-action="Add" method="post">
                     <input type="hidden" name="productId" value="2" />
@@ -116,7 +129,10 @@
                 <h5 class="card-title">Asics Gel-Terrain</h5>
                 <p class="card-text"></p>
                 <p class="card-text fw-bold">300$</p>
-                <a href="#" class="btn btn-primary w-100">Buy</a>
+                <form asp-controller="Cart" asp-action="Add" method="post">
+                    <input type="hidden" name="productId" value="1" />
+                    <button type="submit" class="btn btn-primary w-100">Buy</button>
+                </form>
                 <p></p>
                 <form asp-controller="Cart" asp-action="Add" method="post">
                     <input type="hidden" name="productId" value="3" />
@@ -124,7 +140,31 @@
                 </form>
             </div>
     </div>
+        <script>
+            const searchBox = document.getElementById("searchBox");
 
+            searchBox.addEventListener("input", function () {
+                const query = this.value.toLowerCase();
+                const cards = document.querySelectorAll(".card");
+
+                cards.forEach(card => {
+                    const title = card.querySelector(".card-title");
+                    const text = title.textContent;
+
+                    if (text.toLowerCase().includes(query)) {
+                        card.style.display = "block"; 
+                        const regex = new RegExp(`(${query})`, "gi");
+                        title.innerHTML = text.replace(regex, `<span style="background:yellow;">$1</span>`);
+                    } else {
+                        card.style.display = "none"; 
+                    }
+
+                    if (!query) {
+                        title.innerHTML = text; 
+                    }
+                });
+            });
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </body>
